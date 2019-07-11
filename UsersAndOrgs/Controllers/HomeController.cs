@@ -27,6 +27,7 @@ namespace UsersAndOrgs.Controllers
             return View();
         }
 
+        // Return all list of the users and their organisations.
         public async Task<IEnumerable<UserDto>> GetUsersAndOrgs()
         {
             return (await _orgsDataBase.Users
@@ -35,12 +36,14 @@ namespace UsersAndOrgs.Controllers
                .ToListAsync()).Select(item=>_mapper.Map<UserDto>(item));
         }
   
+        // Return only organisations.
         public async Task<IEnumerable<OrganisationDto>> GetOrganisations()
         {         
             return (await _orgsDataBase.Organisations.ToListAsync())
                 .Select(item=>_mapper.Map<OrganisationDto>(item));
         }
 
+        // Create and add new organisation in the database.
         public async Task<IEnumerable<OrganisationDto>> AddOrganisation([FromBody] NewOrganisationFromClient organisation)
         {
             _orgsDataBase.Organisations.Add(new Models.Organisation()
@@ -57,6 +60,8 @@ namespace UsersAndOrgs.Controllers
                 .Select(item => _mapper.Map<OrganisationDto>(item));
         }
 
+
+        // Update choosen organisation with changes.
         public async Task<IEnumerable<User>> UpdateOrganisation([FromBody] NewOrganisationFromClient organisation, int id)
         {
             var updatingOrganisation = await _orgsDataBase.Organisations
@@ -78,6 +83,7 @@ namespace UsersAndOrgs.Controllers
               .ToListAsync());
         }
 
+        // Remove choosen organisation from the database.
         public async Task<IEnumerable<OrganisationDto>> RemoveOrganisation(int id)
         {
             var organisation = await _orgsDataBase.Organisations
@@ -92,6 +98,7 @@ namespace UsersAndOrgs.Controllers
               .Select(item => _mapper.Map<OrganisationDto>(item));
         }
 
+        // Create and new user into the database.
         public async Task<IEnumerable<UserDto>> AddUser([FromBody] NewUserInfoFromClient info)
         {
             var tmp = info.Name;
@@ -124,6 +131,7 @@ namespace UsersAndOrgs.Controllers
              .Select(item=> _mapper.Map<UserDto>(item));
         }
 
+        // Update choosen user with new changes.
         public async Task<IEnumerable<User>> UpdateUser([FromBody] NewUserInfoFromClient changedUser, int id)
         {
             var updateUser = await _orgsDataBase.Users
@@ -155,6 +163,7 @@ namespace UsersAndOrgs.Controllers
               .ToListAsync());
         }
 
+        // Remove choosen user from the database.
         public async Task<IEnumerable<UserDto>> RemoveUser(int id)
         {
 

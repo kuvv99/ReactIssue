@@ -42,9 +42,7 @@ class AttachOrg extends React.Component {
                         this.state.amount.map(function (item) {
                             return (
                                 <div>
-
                                     <Label for="org">Организация </Label>
-
                                     <Input type="select" id="org" onChange={onTypingNewUser} placeholder="Выберите организацию" >
                                         {
                                             organisations.map(function (item) {

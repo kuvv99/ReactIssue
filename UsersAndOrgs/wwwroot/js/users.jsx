@@ -23,7 +23,6 @@ class Users extends React.Component {
         }
     }
 
-
     render() {
         var removeUser = this.removeUser;
         var updateUser = this.props.updateUser;
