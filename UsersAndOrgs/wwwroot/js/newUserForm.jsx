@@ -1,4 +1,4 @@
-﻿import { Button, Table, Form, FormGroup, Label, Input } from 'reactstrap';
+﻿import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 
 var AttachOrg = require("./attachOrganisation.jsx");
 
@@ -30,8 +30,7 @@ class NewUserForm extends React.Component {
             (length > 2 && length < 32) ?
                 this.setState({ nameIsValid: true })
                 : this.setState({ nameIsValid: false });
-        }
-            
+        }          
 
         if (e.target.id === "secondName") {
             let length = e.target.value.length;
@@ -40,8 +39,7 @@ class NewUserForm extends React.Component {
             (length < 32) ?
                 this.setState({ secondNameIsValid: true })
                 : this.setState({ secondNameIsValid: false });
-        }
-           
+        }         
 
         if (e.target.id === "surname") {
             let length = e.target.value.length;
@@ -49,8 +47,7 @@ class NewUserForm extends React.Component {
             (length > 2 && length < 32) ?
                 this.setState({ surnameIsValid: true })
                 : this.setState({ surnameIsValid: false });
-        }
-           
+        }           
 
         if (e.target.id === "eMail") {
             let length = e.target.value.length;
@@ -64,8 +61,7 @@ class NewUserForm extends React.Component {
             let res = this.state.orgsIds;
             if (!res.includes(e.target.value)) {
                 res.push(e.target.value);
-            }
-            
+            }          
             this.setState({ orgsIds: res });
         }
            
@@ -108,10 +104,12 @@ class NewUserForm extends React.Component {
     }
 
     render() {
+
         let nameBorderColor = this.state.nameIsValid ? "green" : "red";
         let secondNameBorderColor = this.state.secondNameIsValid ? "green" : "red";
         let surnameBorderColor = this.state.surnameIsValid ? "green" : "red";
         let eMailBorderColor = this.state.eMailIsValid ? "green" : "red";
+
         return (
             <div>
                 <Form>

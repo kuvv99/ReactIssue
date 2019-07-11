@@ -1,18 +1,45 @@
-﻿import { Button, Table } from 'reactstrap';
+﻿import { Button, Table, Row, Collapse, Col } from 'reactstrap';
+
+var NewOrganisationForm = require("./newOrganisationForm.jsx");
 
 class Organisations extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { orgs: [] };
+        this.state = {
+            orgs: [],
+            organisatoinCreateFormMode: false,
+            showOrganisationCreate: false,
+            updatingItem: {}
+        };
+
+        this.updateOrganisation = this.updateOrganisation.bind(this);
         this.removeOrganisation = this.removeOrganisation.bind(this);
 
     }
 
-    componentWillMount() {
-     
+    componentWillMount() {    
         fetch(location.protocol + '/Home/GetOrganisations/')
             .then(res => res.json())
             .then(orgs => this.setState({ orgs: orgs }));
+    }
+
+    showCreateForm() {
+        this.setState({ organisatoinCreateFormMode: false });
+        this.setState({ showOrganisationCreate: !this.state.showOrganisationCreate });
+    }
+
+    updateOrganisation(item) {
+        this.setState({
+            showOrganisationCreate: !this.state.showOrganisationCreate
+        });
+        this.setState({
+            organisatoinCreateFormMode: true
+        });
+
+        this.setState({
+            updatingItem:item
+        })
+
     }
     
     removeOrganisation(id) {
@@ -25,9 +52,20 @@ class Organisations extends React.Component {
 
     render() {
         var removeOrganisation = this.removeOrganisation;
-        var updateOrganisation = this.props.updateOrganisation;
+        var updateOrganisation = this.updateOrganisation;
+
         return (
             <div>
+                <Button outline color="primary" onClick={() => this.componentWillMount()}>Обновить таблицу</Button>
+                <Button outline color="primary" onClick={() => this.showCreateForm()}>Добавить организацию</Button>
+                <Row>
+                    <Collapse isOpen={this.state.showOrganisationCreate}>
+                        <Col sm="12" md={{ size: 'auto', offset: 0 }}>
+                            <NewOrganisationForm mode={this.state.organisatoinCreateFormMode} item={this.state.updatingItem} />
+                        </Col>
+                    </Collapse>
+                </Row>
+
                 <Table hover>
                     <thead>
                         <tr>

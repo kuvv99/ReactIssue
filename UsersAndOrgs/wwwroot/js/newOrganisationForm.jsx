@@ -1,34 +1,36 @@
-﻿import { Button, Row, Table, Form, FormGroup, Label, Input } from 'reactstrap';
+﻿import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 
 class NewOrganisationForm extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            name: "",
-            nameIsValid:false,
-            shortName: "",
-            shortNameIsValid:false,
-            adress: "",
-            adressIsValid:false,
-            telephone: "",
-            telephoneIsValid:false
-        };
+
+            this.state = {
+                name: "",
+                nameIsValid: false,
+                shortName: "",
+                shortNameIsValid: false,
+                adress: "",
+                adressIsValid: false,
+                telephone: "",
+                telephoneIsValid: false
+            };
 
         this.onTypingNewOrganisation = this.onTypingNewOrganisation.bind(this);
         this.createOrganisation = this.createOrganisation.bind(this);
     }
 
-    onTypingNewOrganisation(e) {
+    componentWillReceiveProps() {
        
+    }
+
+    onTypingNewOrganisation(e) {
+        
         if (e.target.id === "name") {
             let length = e.target.value.length;
-            this.setState({ id: this.props.bufer.id });
             this.setState({ name: e.target.value });
             (length > 2 && length < 32) ?
                 this.setState({ nameIsValid: true })
                 : this.setState({ nameIsValid: false });
-
-            console.log((length > 2 && length < 32) + " " +this.state.nameIsValid);
         }
 
         if (e.target.id === "shortName") {
@@ -57,22 +59,24 @@ class NewOrganisationForm extends React.Component {
     }
 
     createOrganisation() {
+
         (this.state.nameIsValid && this.state.shortNameIsValid && this.state.adressIsValid && this.state.telephoneIsValid) ?
-            fetch(location.protocol + '/Home/addOrganisation', {
-                method: 'POST',
-                body: JSON.stringify({
-                    name: this.state.name,
-                    shortName: this.state.shortName,
-                    adress: this.state.adress,
-                    telephone: this.state.telephone
-                }),
-                headers: { "Content-Type": "application/json" }
-            })
+                fetch(location.protocol + '/Home/addOrganisation', {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        name: this.state.name,
+                        shortName: this.state.shortName,
+                        adress: this.state.adress,
+                        telephone: this.state.telephone
+                    }),
+                    headers: { "Content-Type": "application/json" }
+                })
             :
             alert("Форма заполнена неверно");
     }
 
     updateOrganisation() {
+
         (this.state.nameIsValid && this.state.shortNameIsValid && this.state.adressIsValid && this.state.telephoneIsValid) ?
         fetch(location.protocol + '/Home/updateOrganisation?id=' + this.props.bufer.id, {
             method: 'POST',
@@ -88,11 +92,11 @@ class NewOrganisationForm extends React.Component {
     }
 
     render() {
+
         let nameBorderColor = this.state.nameIsValid ? "green" : "red";
         let shortNameBorderColor = this.state.shortNameIsValid ? "green" : "red";
         let adressBorderColor = this.state.adressIsValid ? "green" : "red";
         let telephoneBorderColor = this.state.telephoneIsValid ? "green" : "red";
-      
             return (
                 <div>
                     <Form>

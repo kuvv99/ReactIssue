@@ -1,21 +1,42 @@
-﻿import { Button, Table } from 'reactstrap';
+﻿import { Button, Table, Collapse, Row, Col } from 'reactstrap';
+
+var NewUserForm = require("./newUserForm.jsx");
 
 class Users extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { users: [] };
-        this.removeUser = this.removeUser.bind(this);
+        this.state = {
+            users: [],
+            showUserCreate: false,
+            formModeIsUpdate: false         
+        };
 
+        this.removeUser = this.removeUser.bind(this);
+        this.updateUser = this.updateUser.bind(this);
     }
 
     componentWillMount() {
+
         fetch(location.protocol + '/Home/GetUsersAndOrgs')
             .then(response => response.json())
-            .then(users => this.setState({ users: users }));
-   
+            .then(users => this.setState({ users: users }));  
+    }
+
+    showCreateForm() {
+        this.setState({ formModeIsUpdate: !this.state.formModeIsUpdate });
+            this.setState({ showUserCreate: !this.state.showUserCreate });
+    }
+
+    updateUser(item) {
+
+        this.setState({
+            showUserCreate: !this.state.showUserCreate
+        });
+        this.setState({ formModeIsUpdate: false });
     }
 
     removeUser(id) {
+
         if (confirm("Удалить пользователя?")) {
             fetch(location.protocol + '/Home/RemoveUser?id=' + id)
                 .then(res => res.json())
@@ -24,11 +45,20 @@ class Users extends React.Component {
     }
 
     render() {
+
         var removeUser = this.removeUser;
-        var updateUser = this.props.updateUser;
+        var updateUser = this.updateUser;
+
         return (
             <div>
-                <div>
+                <Button outline color="primary" onClick={() => this.showCreateForm()}>Добавить пользователя.</Button>
+                <Row>
+                    <Collapse isOpen={this.state.showUserCreate}>
+                        <Col sm="8" md={{ size: 'auto', offset: 0 }}>
+                            <NewUserForm mode={this.state.formModeIsUpdate} />
+                        </Col>
+                    </Collapse>
+                </Row>
                     <Table hover>
                         <thead>
                             <tr>
@@ -66,8 +96,6 @@ class Users extends React.Component {
                             }
                         </tbody>
                     </Table>
-
-                </div>
             </div>
         );
     }
