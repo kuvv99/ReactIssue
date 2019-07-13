@@ -1,11 +1,14 @@
 ﻿import { Input, Label, Button } from 'reactstrap';
 
+// Component is attach one or more organisation to user.
+
 class AttachOrg extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
             organisations: [],
+            // Amount of organisations to attaching.
             amount: ["1"]
         };   
 
@@ -20,20 +23,30 @@ class AttachOrg extends React.Component {
     }
 
     moreOrganisatonAttach() {
+
+        // Current organisastaion's amount for attaching.
         let amount = this.state.amount;
+
+        // Increase amount for one.
         amount.push("0");
         this.setState({ amount: amount });
     }
 
     lessOrganisationAttach() {
+
+        // Current organisastaion's amount for attaching.
         let amount = this.state.amount;
+
+        // Decrease amount for one.
         amount.pop();
         this.setState({ amount: amount });
     }
 
     render() {
-        let onTypingNewUser = this.props.onTypingNewUser;
-        let organisations = this.state.organisations;
+
+        const onTypingNewUser = this.props.onTypingNewUser;
+        const organisations = this.state.organisations;
+
             return (
                 <div>
                     <Button outline color="primary" onClick={this.moreOrganisatonAttach}>Добавить еще организацию</Button>

@@ -1,7 +1,6 @@
 ﻿import { Container, Row, Col, TabContent, TabPane, Nav, NavLink, NavItem } from 'reactstrap';
 import classnames from 'classnames';
 
-
 var Users = require("./users.jsx");
 var Organisations = require("./organisations.jsx");
 
@@ -15,6 +14,7 @@ class Main extends React.Component {
         this.touch = this.touch.bind(this);
     }
 
+    // Choose current tab-page.
     touch(page) {
 
         if (this.state.currentPage !== page) {
@@ -28,8 +28,9 @@ class Main extends React.Component {
 
         return (
             <div>
-                Here We are...
+              
                 <Container>
+                    <br /> Here we start at now...<br/>
                     <Nav tabs >
                         <NavItem>
                             <NavLink className={classnames({ active: this.state.currentPage === '1' })} onClick={()=> this.touch('1')}>

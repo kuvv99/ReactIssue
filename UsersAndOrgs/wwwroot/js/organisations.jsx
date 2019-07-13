@@ -6,15 +6,20 @@ class Organisations extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+
+            // Organisations.
             orgs: [],
+
+            //CreateFormMde: false -new user; true - update user.
             organisatoinCreateFormMode: false,
             showOrganisationCreate: false,
-            updatingItem: {}
+
+            // Bufer contain updatid organisation data.
+            updatingItem: {},
         };
 
         this.updateOrganisation = this.updateOrganisation.bind(this);
         this.removeOrganisation = this.removeOrganisation.bind(this);
-
     }
 
     componentWillMount() {    
@@ -23,25 +28,29 @@ class Organisations extends React.Component {
             .then(orgs => this.setState({ orgs: orgs }));
     }
 
-    showCreateForm() {
+    showCreateForm() {        
         this.setState({ organisatoinCreateFormMode: false });
+
+        // show/hide form.
         this.setState({ showOrganisationCreate: !this.state.showOrganisationCreate });
     }
 
+    // item - selected organisation into the table.
     updateOrganisation(item) {
         this.setState({
-            showOrganisationCreate: !this.state.showOrganisationCreate
-        });
-        this.setState({
-            organisatoinCreateFormMode: true
-        });
 
-        this.setState({
-            updatingItem:item
-        })
+            // Show form.
+            showOrganisationCreate: !this.state.showOrganisationCreate,
 
+            // Form's mode is update.
+            organisatoinCreateFormMode: true,
+
+            // Updating item.
+            updatingItem: item
+        });
     }
-    
+
+    // remove selected organisation into the table by click.
     removeOrganisation(id) {
         if (confirm("Удалить организацию")) {
             fetch(location.protocol + '/Home/RemoveOrganisation?id=' + id)
@@ -51,8 +60,8 @@ class Organisations extends React.Component {
     }
 
     render() {
-        var removeOrganisation = this.removeOrganisation;
-        var updateOrganisation = this.updateOrganisation;
+        const removeOrganisation = this.removeOrganisation;
+        const updateOrganisation = this.updateOrganisation;
 
         return (
             <div>

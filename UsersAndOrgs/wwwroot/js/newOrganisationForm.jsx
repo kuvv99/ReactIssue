@@ -19,10 +19,24 @@ class NewOrganisationForm extends React.Component {
         this.createOrganisation = this.createOrganisation.bind(this);
     }
 
+     // When updates selcted user auto filling form.
     componentWillReceiveProps() {
-       
+
+        if (this.props.mode) {
+            this.setState({
+                name: this.props.item.fullName,
+                nameIsValid: true,
+                shortName: this.props.item.shortName,
+                shortNameIsValid: true,
+                adress: this.props.item.adress,
+                adressIsValid: true,
+                telephone: this.props.item.telephone,
+                telephoneIsValid: true
+            });
+        }
     }
 
+    // Any filed must have length more 3 words and less 32.
     onTypingNewOrganisation(e) {
         
         if (e.target.id === "name") {
@@ -60,6 +74,7 @@ class NewOrganisationForm extends React.Component {
 
     createOrganisation() {
 
+         // If form filling is valid then create user.
         (this.state.nameIsValid && this.state.shortNameIsValid && this.state.adressIsValid && this.state.telephoneIsValid) ?
                 fetch(location.protocol + '/Home/addOrganisation', {
                     method: 'POST',
@@ -75,10 +90,11 @@ class NewOrganisationForm extends React.Component {
             alert("Форма заполнена неверно");
     }
 
+
     updateOrganisation() {
 
         (this.state.nameIsValid && this.state.shortNameIsValid && this.state.adressIsValid && this.state.telephoneIsValid) ?
-        fetch(location.protocol + '/Home/updateOrganisation?id=' + this.props.bufer.id, {
+        fetch(location.protocol + '/Home/updateOrganisation?id=' + this.props.item.id, {
             method: 'POST',
             body: JSON.stringify({
                 name: this.state.name,
@@ -93,16 +109,17 @@ class NewOrganisationForm extends React.Component {
 
     render() {
 
-        let nameBorderColor = this.state.nameIsValid ? "green" : "red";
-        let shortNameBorderColor = this.state.shortNameIsValid ? "green" : "red";
-        let adressBorderColor = this.state.adressIsValid ? "green" : "red";
-        let telephoneBorderColor = this.state.telephoneIsValid ? "green" : "red";
+        const nameBorderColor = this.state.nameIsValid ? "green" : "red";
+        const shortNameBorderColor = this.state.shortNameIsValid ? "green" : "red";
+        const adressBorderColor = this.state.adressIsValid ? "green" : "red";
+        const telephoneBorderColor = this.state.telephoneIsValid ? "green" : "red";
+
             return (
                 <div>
                     <Form>
                         <FormGroup>
                             <Label for="name">Наименование организации</Label>
-                            <Input type="text" id="name" value={this.state.Name} onChange={this.onTypingNewOrganisation} style={{ borderColor: nameBorderColor }} />
+                            <Input type="text" id="name" value={this.state.name} onChange={this.onTypingNewOrganisation} style={{ borderColor: nameBorderColor }} />
                         </FormGroup>
 
                         <FormGroup>
@@ -120,8 +137,8 @@ class NewOrganisationForm extends React.Component {
                             <Input type="text" id="telephone" value={this.state.telephone} style={{ borderColor:telephoneBorderColor }} onChange={this.onTypingNewOrganisation} />
                         </FormGroup>
 
-                        <Button onClick={() => this.updateOrganisation()} disabled={!this.props.mode}> Обновить организацию</Button>
-                        <Button onClick={() => this.createOrganisation()} disabled={this.props.mode}> Создать организацию</Button>
+                        <Button outline color="primary" onClick={() => this.updateOrganisation()} disabled={!this.props.mode}> Обновить организацию</Button>
+                        <Button outline color="primary" onClick={() => this.createOrganisation()} disabled={this.props.mode}> Создать организацию</Button>
                     </Form>
                 </div>
             );

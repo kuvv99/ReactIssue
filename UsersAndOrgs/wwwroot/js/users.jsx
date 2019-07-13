@@ -8,7 +8,8 @@ class Users extends React.Component {
         this.state = {
             users: [],
             showUserCreate: false,
-            formModeIsUpdate: false         
+            formModeIsUpdate: false,
+            updatingItem: {}
         };
 
         this.removeUser = this.removeUser.bind(this);
@@ -23,16 +24,23 @@ class Users extends React.Component {
     }
 
     showCreateForm() {
-        this.setState({ formModeIsUpdate: !this.state.formModeIsUpdate });
+        this.setState({ formModeIsUpdate: false });
             this.setState({ showUserCreate: !this.state.showUserCreate });
     }
 
     updateUser(item) {
 
         this.setState({
-            showUserCreate: !this.state.showUserCreate
+
+            // Show creating form.
+            showUserCreate: !this.state.showUserCreate,
+
+            // Form's mode is update.
+            formModeIsUpdate: !this.state.formModeIsUpdate,
+
+            // Updating item.
+            updatingItem: item
         });
-        this.setState({ formModeIsUpdate: false });
     }
 
     removeUser(id) {
@@ -46,16 +54,17 @@ class Users extends React.Component {
 
     render() {
 
-        var removeUser = this.removeUser;
-        var updateUser = this.updateUser;
+        const removeUser = this.removeUser;
+        const updateUser = this.updateUser;
 
         return (
             <div>
+                <Button outline color="primary" onClick={() => this.componentWillMount()}>Обновить таблицу</Button>
                 <Button outline color="primary" onClick={() => this.showCreateForm()}>Добавить пользователя.</Button>
                 <Row>
                     <Collapse isOpen={this.state.showUserCreate}>
                         <Col sm="8" md={{ size: 'auto', offset: 0 }}>
-                            <NewUserForm mode={this.state.formModeIsUpdate} />
+                            <NewUserForm  mode = { this.state.formModeIsUpdate } item={this.state.updatingItem} />
                         </Col>
                     </Collapse>
                 </Row>
